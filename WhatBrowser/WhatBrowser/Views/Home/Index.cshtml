@@ -1,0 +1,37 @@
+﻿@using System.Net
+@{
+    ViewBag.Title = "What Browser";
+}
+
+@functions {
+    string reverseIP(string ip)
+    {
+        if (string.IsNullOrEmpty(ip)) return ip;
+
+        return Dns.GetHostByAddress(ip).HostName ?? ip;
+        
+        /*
+        try
+        {
+            return Dns.GetHostEntry(ip).AddressList.Select(entry => entry.Address.ToString()).FirstOrDefault() ?? ip;
+        }
+        catch (SocketException) { return ip; }
+        */
+    }
+
+}
+
+<h1>What Browser</h1>
+
+<h2>Browser: @Request.Browser.Browser @Request.Browser.Version</h2>
+<h2>Layout Engine: @Request.Browser.Capabilities["layoutEngine"] @Request.Browser.Capabilities["layoutEngineVersion"]</h2>
+<h2>IP: @Request.UserHostAddress</h2>
+<h2>ISP: @reverseIP(Request.UserHostAddress)</h2>
+<h2>Screen Bit Depth: @Request.Browser.ScreenBitDepth</h2>
+
+@if (Request.Browser.IsMobileDevice)
+{
+    <h2>Mobile: @Request.Browser.MobileDeviceManufacturer @Request.Browser.MobileDeviceModel</h2>
+}
+
+<p><strong>User Agent:</strong> @Request.UserAgent</p>
