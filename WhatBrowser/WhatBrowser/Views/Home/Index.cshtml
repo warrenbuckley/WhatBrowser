@@ -9,29 +9,96 @@
         if (string.IsNullOrEmpty(ip)) return ip;
 
         return Dns.GetHostByAddress(ip).HostName ?? ip;
-        
-        /*
-        try
-        {
-            return Dns.GetHostEntry(ip).AddressList.Select(entry => entry.Address.ToString()).FirstOrDefault() ?? ip;
-        }
-        catch (SocketException) { return ip; }
-        */
-    }
-
+    }    
 }
+
+<script>
+
+    //Wait until the DOM/Window is loaded
+    window.onload = function () {
+
+        //Screen/monitor size
+        var screenHeight = window.screen.height;
+        var screenWidth = window.screen.width;
+        console.log("Screen Res: " + screenHeight + " * " + screenWidth);
+
+        //Update DOM elements
+        var screenHeightDOM = document.getElementById("screenHeight");
+        var screenWidthDOM = document.getElementById("screenWidth");
+
+        screenHeightDOM.innerText = screenHeight;
+        screenWidthDOM.innerText = screenWidth;
+
+        //Viewport
+        var viewHeight = window.innerHeight;
+        var viewWidth = window.innerWidth;
+
+        var viewHeightDOM = document.getElementById("viewHeight");
+        var viewWidthDOM = document.getElementById("viewWidth");
+
+        viewHeightDOM.innerText = viewHeight;
+        viewWidthDOM.innerText = viewWidth;
+
+
+        console.log("View Res: " + viewHeight + " * " + viewWidth);
+
+        //On window resize (update/fetch view Height/Width
+
+
+        //Are cookies enabled?
+        var mmmCookies = navigator.cookieEnabled;
+
+        //Update DOM element
+        var mmmCookiesDOM = document.getElementById("mmmCookies");
+        mmmCookiesDOM.innerText = mmmCookies;
+
+    };
+
+    
+
+</script>
+
 
 <h1>What Browser</h1>
 
 <h2>Browser: @Request.Browser.Browser @Request.Browser.Version</h2>
 <h2>Layout Engine: @Request.Browser.Capabilities["layoutEngine"] @Request.Browser.Capabilities["layoutEngineVersion"]</h2>
+<h2>Platform: @Request.Browser.Platform</h2>
+<h2>Browser Languages: @Request.Headers["Accept-Language"]</h2>
+
+<h2>Javascript Version: @Request.Browser["JavaScriptVersion"]</h2>
+<noscript>
+    <h2>JavaScript Enabled: False</h2>
+</noscript>
+
+<h2>Cookies Enabled: <span id="mmmCookies"></span></h2>
+
+
 <h2>IP: @Request.UserHostAddress</h2>
 <h2>ISP: @reverseIP(Request.UserHostAddress)</h2>
+
 <h2>Screen Bit Depth: @Request.Browser.ScreenBitDepth</h2>
+
+<h2>Screen Pixels Height: <span id="screenHeight"></span></h2>
+<h2>Screen Pixels Height: <span id="screenWidth"></span></h2>
+
+<h2>View Port Height: <span id="viewHeight"></span></h2>
+<h2>View Port Width: <span id="viewWidth"></span></h2>
+
 
 @if (Request.Browser.IsMobileDevice)
 {
     <h2>Mobile: @Request.Browser.MobileDeviceManufacturer @Request.Browser.MobileDeviceModel</h2>
 }
 
-<p><strong>User Agent:</strong> @Request.UserAgent</p>
+<h2>User Agent:</h2>
+<textarea style="width:99%;">@Request.UserAgent</textarea>
+
+
+<h4>TODO </h4>
+<ul>
+    <li>Has JS Enabled</li>
+    <li>Orientation of device</li>
+    <li>Pixel Density</li>
+    <li>Email these results (Form)</li>
+</ul>
