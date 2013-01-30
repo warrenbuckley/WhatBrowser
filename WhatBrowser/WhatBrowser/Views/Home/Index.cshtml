@@ -12,8 +12,9 @@
     }    
 }
 
-<script>
+<link href="~/Content/styles.css"  rel="stylesheet" type="text/css" />
 
+<script>
     //Wait until the DOM/Window is loaded
     window.onload = function () {
 
@@ -52,6 +53,10 @@
         var mmmCookiesDOM = document.getElementById("mmmCookies");
         mmmCookiesDOM.innerText = mmmCookies;
 
+        //Device Pixel Ratio
+        var pixelRatio = document.getElementById("pixelRatio");
+        pixelRatio.innerText = window.devicePixelRatio;
+
     };
 
     
@@ -85,6 +90,8 @@
 <h2>View Port Height: <span id="viewHeight"></span></h2>
 <h2>View Port Width: <span id="viewWidth"></span></h2>
 
+<h2>Orientation: <span id="orientation"></span></h2>
+<h2>Device Pixel Ratio: <span id="pixelRatio"></span></h2>
 
 @if (Request.Browser.IsMobileDevice)
 {
@@ -94,11 +101,10 @@
 <h2>User Agent:</h2>
 <textarea style="width:99%;">@Request.UserAgent</textarea>
 
+<hr />
 
 <h4>TODO </h4>
 <ul>
-    <li>Has JS Enabled</li>
-    <li>Orientation of device</li>
-    <li>Pixel Density</li>
+    <li>Has JS Enabled - kind of with NOSCRIPT</li>
     <li>Email these results (Form)</li>
 </ul>
