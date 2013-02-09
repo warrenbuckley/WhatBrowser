@@ -8,6 +8,18 @@ h1{
     font-size:64px;
 }
 
+h2[data-test-value='true'],
+h3[data-test-value='true']
+{
+    color:green;
+}
+
+h2[data-test-value='false'],
+h3[data-test-value='false']
+{
+    color:red;
+}
+
 #orientation:after
     {
         display:block;
