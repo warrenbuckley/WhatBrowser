@@ -3,9 +3,38 @@
     font-weight:300;
 } 
 
+body{
+    /*
+    background-color:#4291AA;
+    color:#F1F7E4;
+    */
+}
+
+header
+{
+    position:fixed;
+    background-color:rgba(66, 145, 170,0.85);
+    display:block;
+    top:0;
+    right:0;
+    width:100%;
+}
+
+.logo {
+    position: fixed;
+    top:30px;
+    right:30px;
+}
+
+#content{
+    margin:180px 0 0 0;
+}
+
 h1{
     font-family: 'Pacifico', cursive;
     font-size:64px;
+    margin:20px;
+    color:#F1F7E4;
 }
 
 h2[data-test-value='true'],
@@ -58,5 +87,29 @@ h3[data-test-value='false']
             content: 'Hi Pixel';        
             display:block;
             background-color:purple;
+        }
+    }
+
+    @media only screen and (max-width: 700px), only screen and (max-device-width: 700px) 
+    {
+        h1
+        {
+            font-size:32px;
+        }
+
+        .logo
+        {
+            top:10px;
+            right:15px;
+        }
+
+        #content{
+            margin:120px 0 0 0;
+        }
+    }
+
+    @media only screen and (max-width: 480px), only screen and (max-device-width: 480px) {
+         .logo{
+            display:none;
         }
     }
