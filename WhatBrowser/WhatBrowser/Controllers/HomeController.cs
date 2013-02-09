@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 using WhatBrowser.Models;
@@ -22,10 +24,51 @@ namespace WhatBrowser.Controllers
         [HttpPost]
         public ActionResult SendEmail(ContactFormViewModel model)
         {
-            //Need to get contents from page to send in email (html, saved in hidden field)
-            var HTML = model.HTMLResults;
+            //Only send email if the model is valid...
+            if (ModelState.IsValid)
+            {
+                //Need to get contents from page to send in email (html, saved in hidden field)
+                var HTML = model.HTMLResults;
+                
+                //Email Message
+                var emailBody       = "<h1>What Browser Report</h1>";
+                emailBody          += "<h2>Name: " + model.Name + "</h2>";
+                emailBody          += "<h2>Email: " + model.Email + "</h2>";
+                emailBody          += "<h2>Company: " + model.Company + "</h2>";
+                emailBody          += "<h2>Message:</h2><p>" + model.Message + "</p>";
+                emailBody          += "<h2>Date:</h2>" + DateTime.Now.ToString("dd/MM/yy @HH:mm:ss") + "</h2>";
+                emailBody          += "<hr/>";
+                emailBody          += HTML;
 
-            return Content(HTML);
+                //Email Object
+                MailMessage email   = new MailMessage();
+                email.To.Add         (new MailAddress("warren@creativewebspecialist.co.uk", "Warren Buckley"));
+                email.From          = new MailAddress(model.Email, model.Name);
+                email.Subject       = "What Browser: Browser Report";
+                email.Body          = emailBody;
+                email.IsBodyHtml    = true;
+                email.Priority      = MailPriority.High;
+
+                //SMTP Object
+                SmtpClient smtp     = new SmtpClient();
+                smtp.Credentials    = new NetworkCredential("warrenbuckley", "R5W5t7A4w");
+                smtp.Port           = 587;
+                smtp.Host           = "smtp.sendgrid.com";
+
+                try 
+	            {	        
+		            //Try to send the email
+                    smtp.Send(email);
+
+	            }
+	            catch (Exception ex)
+	            {		            
+		            throw;
+	            }              
+
+            }
+
+            return RedirectToAction("Index");
         }
 
         //

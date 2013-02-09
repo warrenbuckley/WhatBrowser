@@ -5,26 +5,30 @@
     Html.EnableUnobtrusiveJavaScript();
 }
 
-@Html.BeginForm("SendEmail", "Home")
-{
+@using (Html.BeginForm("SendEmail","Home"))
+{    
     <div>
         @Html.LabelFor(x => x.Name)
         @Html.TextBoxFor(x => x.Name)
+        @Html.ValidationMessageFor(x => x.Name)
     </div>
 
     <div>
         @Html.LabelFor(x => x.Email)
         @Html.TextBoxFor(x => x.Email)
+        @Html.ValidationMessageFor(x => x.Email)
     </div>
 
     <div>
         @Html.LabelFor(x => x.Company)
         @Html.TextBoxFor(x => x.Company)
+        @Html.ValidationMessageFor(x => x.Company)
     </div>
     
     <div>
         @Html.LabelFor(x => x.Message)
         @Html.TextAreaFor(x => x.Message)
+        @Html.ValidationMessageFor(x => x.Message)
     </div>
 
     @Html.HiddenFor(x => x.HTMLResults)

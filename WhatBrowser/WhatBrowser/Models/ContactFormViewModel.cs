@@ -21,6 +21,7 @@ namespace WhatBrowser.Models
         public string Message { get; set; }
 
         [HiddenInput(DisplayValue = false)]
+        [AllowHtml]
         public string HTMLResults { get; set; }
     }
 }
