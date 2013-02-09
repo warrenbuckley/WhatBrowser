@@ -8,8 +8,8 @@
     {
         if (string.IsNullOrEmpty(ip)) return ip;
 
-        //return string.Empty;
-        return Dns.GetHostByAddress(ip).HostName ?? ip;
+        return string.Empty;
+        //return Dns.GetHostByAddress(ip).HostName ?? ip;
     }    
 }
 
@@ -48,8 +48,11 @@
 
         console.log("View Res: " + viewHeight + " * " + viewWidth);
 
-        //TODO: On window resize update val's of viewport window
-
+        //On window resize update val's of viewport window
+        $(window).resize(function () {
+            $("#viewHeight").text(window.innerHeight);
+            $("#viewWidth").text(window.innerWidth);
+        });
 
         //Are cookies enabled?
         $("#mmmCookies").text(navigator.cookieEnabled);
@@ -94,58 +97,64 @@
         //Write out test results to DIV
         $("#modernizrTests").html(strHTML);
 
+        //Get HTML in #browserResults & store in hidden field to post to controller
+        var browserResults = $("#browserResults").html();
+        $("#HTMLResults").val(browserResults);
+
     });
 </script>
 
 </head>
     <body>
         <h1>What Browser</h1>
+        <div id="browserResults">
+            <h2>Browser: @Request.Browser.Browser @Request.Browser.Version</h2>
+            <h2>Layout Engine: @Request.Browser.Capabilities["layoutEngine"] @Request.Browser.Capabilities["layoutEngineVersion"]</h2>
+            <h2>Platform: @Request.Browser.Platform</h2>
+            <h2>Browser Languages: @Request.Headers["Accept-Language"]</h2>
 
-        <h2>Browser: @Request.Browser.Browser @Request.Browser.Version</h2>
-        <h2>Layout Engine: @Request.Browser.Capabilities["layoutEngine"] @Request.Browser.Capabilities["layoutEngineVersion"]</h2>
-        <h2>Platform: @Request.Browser.Platform</h2>
-        <h2>Browser Languages: @Request.Headers["Accept-Language"]</h2>
+            <h2>Javascript Version: @Request.Browser["JavaScriptVersion"]</h2>
+            <noscript>
+                <h2>JavaScript Enabled: False</h2>
+            </noscript>
 
-        <h2>Javascript Version: @Request.Browser["JavaScriptVersion"]</h2>
-        <noscript>
-            <h2>JavaScript Enabled: False</h2>
-        </noscript>
+            <h2>Cookies Enabled: <span id="mmmCookies"></span></h2>
 
-        <h2>Cookies Enabled: <span id="mmmCookies"></span></h2>
+            <h2>IP: @Request.UserHostAddress</h2>
+            <h2>ISP: @reverseIP(Request.UserHostAddress)</h2>
 
+            <h2>Screen Bit Depth: @Request.Browser.ScreenBitDepth</h2>
 
-        <h2>IP: @Request.UserHostAddress</h2>
-        <h2>ISP: @reverseIP(Request.UserHostAddress)</h2>
+            <h2>Screen Pixels Height: <span id="screenHeight"></span></h2>
+            <h2>Screen Pixels Width: <span id="screenWidth"></span></h2>
 
-        <h2>Screen Bit Depth: @Request.Browser.ScreenBitDepth</h2>
+            <h2>View Port Height: <span id="viewHeight"></span></h2>
+            <h2>View Port Width: <span id="viewWidth"></span></h2>
 
-        <h2>Screen Pixels Height: <span id="screenHeight"></span></h2>
-        <h2>Screen Pixels Height: <span id="screenWidth"></span></h2>
+            <h2>Orientation: <span id="orientation"></span></h2>
+            <h2>Device Pixel Ratio: <span id="pixelRatio"></span></h2>
 
-        <h2>View Port Height: <span id="viewHeight"></span></h2>
-        <h2>View Port Width: <span id="viewWidth"></span></h2>
+            @if (Request.Browser.IsMobileDevice)
+            {
+                <h2>Mobile: @Request.Browser.MobileDeviceManufacturer @Request.Browser.MobileDeviceModel</h2>
+            }
 
-        <h2>Orientation: <span id="orientation"></span></h2>
-        <h2>Device Pixel Ratio: <span id="pixelRatio"></span></h2>
+            <h2>User Agent:</h2>
+            <textarea style="width:99%;">@Request.UserAgent</textarea>
 
-        @if (Request.Browser.IsMobileDevice)
-        {
-            <h2>Mobile: @Request.Browser.MobileDeviceManufacturer @Request.Browser.MobileDeviceModel</h2>
-        }
+            <hr />
 
-        <h2>User Agent:</h2>
-        <textarea style="width:99%;">@Request.UserAgent</textarea>
+            <h2>Modernizr Tests - Version <span id="modernizrVersion"></span></h2>
+            <div id="modernizrTests"></div>
+        </div>
 
         <hr />
 
-        <h2>Modernizr Tests - Version <span id="modernizrVersion"></span></h2>
-        <div id="modernizrTests"></div>
+        <!-- Email Form -->
+        @Html.Partial("EmailForm")
 
-        <hr />
-
-        <h4>TODO </h4>
-        <ul>
-            <li>Email these results (Form)</li>
-        </ul>
+        <footer>
+            <h3>Built by Warren Buckley for The CogWorks &copy;2013</h3>
+        </footer>
     </body>
 </html>

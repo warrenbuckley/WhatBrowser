@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WhatBrowser.Models;
 
 namespace WhatBrowser.Controllers
 {
@@ -14,6 +15,17 @@ namespace WhatBrowser.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        //
+        // POST: /Home/SendEmail/
+        [HttpPost]
+        public ActionResult SendEmail(ContactFormViewModel model)
+        {
+            //Need to get contents from page to send in email (html, saved in hidden field)
+            var HTML = model.HTMLResults;
+
+            return Content(HTML);
         }
 
         //

@@ -1,0 +1,34 @@
+﻿@model WhatBrowser.Models.ContactFormViewModel
+
+@{
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+}
+
+@Html.BeginForm("SendEmail", "Home")
+{
+    <div>
+        @Html.LabelFor(x => x.Name)
+        @Html.TextBoxFor(x => x.Name)
+    </div>
+
+    <div>
+        @Html.LabelFor(x => x.Email)
+        @Html.TextBoxFor(x => x.Email)
+    </div>
+
+    <div>
+        @Html.LabelFor(x => x.Company)
+        @Html.TextBoxFor(x => x.Company)
+    </div>
+    
+    <div>
+        @Html.LabelFor(x => x.Message)
+        @Html.TextAreaFor(x => x.Message)
+    </div>
+
+    @Html.HiddenFor(x => x.HTMLResults)
+
+    <input type="submit" />
+}
+
