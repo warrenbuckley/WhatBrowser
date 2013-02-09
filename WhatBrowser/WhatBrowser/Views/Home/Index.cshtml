@@ -8,8 +8,8 @@
     {
         if (string.IsNullOrEmpty(ip)) return ip;
 
-        return string.Empty;
-        //return Dns.GetHostByAddress(ip).HostName ?? ip;
+        //return string.Empty;
+        return Dns.GetHostByAddress(ip).HostName ?? ip;
     }    
 }
 
