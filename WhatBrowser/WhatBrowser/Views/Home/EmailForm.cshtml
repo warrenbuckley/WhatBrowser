@@ -6,33 +6,45 @@
 }
 
 @using (Html.BeginForm("SendEmail","Home"))
-{    
-    <div>
+{
+    <div class="control-group">
         @Html.LabelFor(x => x.Name)
-        @Html.TextBoxFor(x => x.Name)
-        @Html.ValidationMessageFor(x => x.Name)
+        <div class="controls">
+            @Html.TextBoxFor(x => x.Name)
+            @Html.ValidationMessageFor(x => x.Name)
+        </div>
     </div>
 
-    <div>
+    <div class="control-group">
         @Html.LabelFor(x => x.Email)
-        @Html.TextBoxFor(x => x.Email)
-        @Html.ValidationMessageFor(x => x.Email)
+        <div class="controls">
+            @Html.TextBoxFor(x => x.Email)
+            @Html.ValidationMessageFor(x => x.Email)
+        </div>
     </div>
 
-    <div>
+    <div class="control-group">
         @Html.LabelFor(x => x.Company)
-        @Html.TextBoxFor(x => x.Company)
-        @Html.ValidationMessageFor(x => x.Company)
+        <div class="controls">
+            @Html.TextBoxFor(x => x.Company)
+            @Html.ValidationMessageFor(x => x.Company)
+        </div>
     </div>
     
-    <div>
+    <div class="control-group">
         @Html.LabelFor(x => x.Message)
-        @Html.TextAreaFor(x => x.Message)
-        @Html.ValidationMessageFor(x => x.Message)
+        <div class="controls">
+            @Html.TextAreaFor(x => x.Message)
+            @Html.ValidationMessageFor(x => x.Message)
+        </div>
     </div>
 
     @Html.HiddenFor(x => x.HTMLResults)
 
-    <input type="submit" />
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Save changes</button>
+        <button type="reset" class="btn">Cancel</button>
+    </div>
+    
 }
 

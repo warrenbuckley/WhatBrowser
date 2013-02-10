@@ -13,170 +13,78 @@
     }    
 }
 
-<!DOCTYPE html>
-<html  class="no-js">
-<head>
-    <meta charset="utf-8">
-    <title>What Browser</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<header>
+    <h1>What Browser</h1>
+    <a href="http://www.thecogworks.co.uk" target="_blank" class="logo">
+        <img src="~/Content/cogworks-logo.png" />
+    </a>
+</header>
+<div id="content">
+    <div id="browserResults">
+        <h2>Browser: @Request.Browser.Browser @Request.Browser.Version</h2>
+        <h2>Layout Engine: @Request.Browser.Capabilities["layoutEngine"] @Request.Browser.Capabilities["layoutEngineVersion"]</h2>
+        <h2>Platform: @Request.Browser.Platform</h2>
+        <h2>Browser Languages: @Request.Headers["Accept-Language"]</h2>
 
-    <link href='http://fonts.googleapis.com/css?family=Ubuntu:300|Pacifico' rel='stylesheet' type='text/css' />
-    <link href="~/Content/styles.css"  rel="stylesheet" type="text/css" />
-    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
-    <script src="~/Scripts/jquery.validate.min.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
-    <script src="~/Scripts/modernizr-2.6.2.js" type="text/javascript"></script>
-<script>
+        <h2>Javascript Version: @Request.Browser["JavaScriptVersion"]</h2>
+        <noscript>
+            <h2>JavaScript Enabled: False</h2>
+        </noscript>
 
-    //Wait until DOM ready
-    $(document).ready(function () {
+        <h2>Cookies Enabled: <span id="mmmCookies"></span></h2>
 
-        //Screen/monitor size
-        var screenHeight    = window.screen.height;
-        var screenWidth     = window.screen.width;
-        console.log("Screen Res: " + screenHeight + " * " + screenWidth);
+        <h2>IP: @Request.UserHostAddress</h2>
+        <h2>ISP: @reverseIP(Request.UserHostAddress)</h2>
 
-        //Update DOM elements
-        $("#screenHeight").text(screenHeight);
-        $("#screenWidth").text(screenWidth);
-        
-        //Viewport
-        var viewHeight  = window.innerHeight;
-        var viewWidth = window.innerWidth;
+        <h2>Screen Bit Depth: @Request.Browser.ScreenBitDepth</h2>
 
-        $("#viewHeight").text(viewHeight);
-        $("#viewWidth").text(viewWidth);
+        <h2>Screen Pixels Height: <span id="screenHeight"></span></h2>
+        <h2>Screen Pixels Width: <span id="screenWidth"></span></h2>
 
-        console.log("View Res: " + viewHeight + " * " + viewWidth);
+        <h2>View Port Height: <span id="viewHeight"></span></h2>
+        <h2>View Port Width: <span id="viewWidth"></span></h2>
 
-        //On window resize update val's of viewport window
-        $(window).resize(function () {
-            $("#viewHeight").text(window.innerHeight);
-            $("#viewWidth").text(window.innerWidth);
-        });
+        <h2>Orientation: <span id="orientation"></span></h2>
+        <h2>Device Pixel Ratio: <span id="pixelRatio"></span></h2>
 
-        //Are cookies enabled?
-        $("#mmmCookies").text(navigator.cookieEnabled);
-        
-        //Device Pixel Ratio
-        $("#pixelRatio").text(window.devicePixelRatio);
-
-
-        //Modernizr Stuff
-        //Write out Modernizr Version to DOM
-        $("#modernizrVersion").text(Modernizr._version);
-
-        //Exclude list
-        var excludeList = ['addTest', '_version', '_prefixes', '_domPrefixes', '_cssomPrefixes', 'mq', 'hasEvent', 'testProp', 'testAllProps', 'testStyles', 'prefixed'];
-
-        //String to store HTML in
-        var strHTML = "";
-
-        //Lists out most true/false tests
-        for (var test in Modernizr) {
-
-            //Check we can not find the item in the exclude list array
-            if ($.inArray(test, excludeList) == -1) {
-                var obj = Modernizr[test];
-
-                strHTML += "<h2 data-test-value='"+ obj + "'>" + test + ": " + obj + "</h2>";
-
-                console.log(test + " = " + obj);
-
-                //If obj has child object (input & inputtypes)            
-                for (var prop in obj) {
-                    if (obj.hasOwnProperty(prop)) {
-
-                        strHTML += "<h3 data-test-value='" + obj[prop] + "'>" + prop + ": " + obj[prop] + "</h3>";
-
-                        console.log(prop + " = " + obj[prop]);
-                    }
-                }
-            }
+        @if (Request.Browser.IsMobileDevice)
+        {
+            <h2>Mobile: @Request.Browser.MobileDeviceManufacturer @Request.Browser.MobileDeviceModel</h2>
         }
 
-        //Write out test results to DIV
-        $("#modernizrTests").html(strHTML);
+        <h2>User Agent: @Request.UserAgent</h2>
 
-        //Get HTML in #browserResults & store in hidden field to post to controller
-        var browserResults = $("#browserResults").html();
-        $("#HTMLResults").val(browserResults);
+        <hr />
+        
+        <h2>Modernizr Tests - Version <span id="modernizrVersion"></span></h2>
+        <div id="modernizrTests"></div>
+    </div>
+    
+    <hr />
+    
+    <!-- Email Form -->
+    @Html.Partial("EmailForm")
+</div> 
 
-    });
-</script>
+<footer>
+    <h3>Built by Warren Buckley for The CogWorks &copy;2013</h3>
+</footer>
 
-</head>
-    <body>
-        <header>
-            <h1>What Browser</h1>
+@section scripts
+{
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/Custom/Script.js"></script>
 
-            <a href="http://www.thecogworks.co.uk" target="_blank" class="logo">
-                <img src="~/Content/cogworks-logo.png" />
-            </a>
-        </header>
-        <div id="content">
-            <div id="browserResults">
-                <h2>Browser: @Request.Browser.Browser @Request.Browser.Version</h2>
-                <h2>Layout Engine: @Request.Browser.Capabilities["layoutEngine"] @Request.Browser.Capabilities["layoutEngineVersion"]</h2>
-                <h2>Platform: @Request.Browser.Platform</h2>
-                <h2>Browser Languages: @Request.Headers["Accept-Language"]</h2>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-38369370-1']);
+        _gaq.push(['_trackPageview']);
 
-                <h2>Javascript Version: @Request.Browser["JavaScriptVersion"]</h2>
-                <noscript>
-                    <h2>JavaScript Enabled: False</h2>
-                </noscript>
-
-                <h2>Cookies Enabled: <span id="mmmCookies"></span></h2>
-
-                <h2>IP: @Request.UserHostAddress</h2>
-                <h2>ISP: @reverseIP(Request.UserHostAddress)</h2>
-
-                <h2>Screen Bit Depth: @Request.Browser.ScreenBitDepth</h2>
-
-                <h2>Screen Pixels Height: <span id="screenHeight"></span></h2>
-                <h2>Screen Pixels Width: <span id="screenWidth"></span></h2>
-
-                <h2>View Port Height: <span id="viewHeight"></span></h2>
-                <h2>View Port Width: <span id="viewWidth"></span></h2>
-
-                <h2>Orientation: <span id="orientation"></span></h2>
-                <h2>Device Pixel Ratio: <span id="pixelRatio"></span></h2>
-
-                @if (Request.Browser.IsMobileDevice)
-                {
-                    <h2>Mobile: @Request.Browser.MobileDeviceManufacturer @Request.Browser.MobileDeviceModel</h2>
-                }
-
-                <h2>User Agent: @Request.UserAgent</h2>
-
-                <hr />
-
-                <h2>Modernizr Tests - Version <span id="modernizrVersion"></span></h2>
-                <div id="modernizrTests"></div>
-            </div>
-
-            <hr />
-
-            <!-- Email Form -->
-            @Html.Partial("EmailForm")
-        </div> 
-
-        <footer>
-            <h3>Built by Warren Buckley for The CogWorks &copy;2013</h3>
-        </footer>
-<script type="text/javascript">
-
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-38369370-1']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-</script>
-    </body>
-</html>
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+}
