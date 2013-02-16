@@ -18,7 +18,7 @@
     <div class="control-group">
         @Html.LabelFor(x => x.Email)
         <div class="controls">
-            @Html.TextBoxFor(x => x.Email)
+            @Html.TextBoxFor(x => x.Email, new { @type = "email" })
             @Html.ValidationMessageFor(x => x.Email)
         </div>
     </div>
